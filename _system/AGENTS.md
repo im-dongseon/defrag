@@ -10,8 +10,8 @@
 
 ## 현재 활성 Rules 경로
 
-- **최신 버전:** `_system/rules_v1_3_5/`
-- **진입점:** `_system/rules_v1_3_5/index.md`
+- **최신 버전:** `_system/rules_v1_3_6/`
+- **진입점:** `_system/rules_v1_3_6/index.md`
 
 ## Superpowers 사용 원칙
 

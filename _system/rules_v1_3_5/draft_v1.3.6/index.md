@@ -1,0 +1,84 @@
+# defrag Rules v1.3.5 — 시스템 인덱스
+
+**Project:** defrag  
+**Version:** 1.3.5  
+**Framework:** Johnny.Decimal + PARA Hybrid (Automation Focused & Zero-Manual-Review & Token Optimized)  
+**기반:** `rules_v1_3_4/` → v1.3.5 패치 (도구 활용 계층화 및 Alias 우회 보안 패치)  
+**다음 버전 작업:** AGENTS.md §1-2 draft 절차를 따릅니다.
+
+> **에이전트 로드 순서:** 이 파일(`index.md`)을 항상 먼저 로드하고, 수행하는 작업에 맞는 규칙 파일 1~2개만 추가 로드합니다.
+
+---
+
+## 핵심 임무 (Core Mission)
+
+당신은 개인 지식 베이스(CMDS)를 관리하고 지식을 증식시키는 전문 에이전트입니다. 사용자의 수동 개입 없이 `00_Inbox`의 데이터를 분류, 통합, 정제하여 최고 품질의 쿼리 가능한 정형 데이터를 유지해야 합니다. 모든 작업은 지식의 '복리 효과'와 '에이전트 토큰 최적화(비용 절감)'를 극대화하는 방향으로 수행됩니다.
+
+---
+
+## 도구 활용 및 폴백 대원칙 (Tool & Fallback Hierarchy)
+
+모든 작업 수행 시 아래 계층 구조를 따르되, **파일 크기 및 Alias 위험**에 따른 예외 조항을 엄격히 준수합니다.
+
+1.  **1순위: Obsidian 전용 도구** (`obsidian eval`, `obsidian search` 등)
+    - 볼트 내 메타데이터 쿼리, 인덱스 분석, 그래프 탐색 등 볼트 특화 로직에 최우선 활용.
+2.  **2순위: OS 표준 명령어** (`run_shell_command` 활용 - `mv`, `cp`, `ls`, `\cat`, `\grep` 등)
+    - 파일 이동(`mv`), 복사(`cp`), 목록 확인 등 물리적 작업 및 **소형 파일** 조회에 활용.
+    - **Alias Bypass:** `cat`, `grep`, `find` 등 텍스트 처리 명령어 사용 시 반드시 `\`를 붙여 사용자 환경의 Alias(`bat`, `color-grep` 등)로 인한 데이터 오염(라인 넘버, 색상 코드)을 방지하십시오.
+3.  **3순위: 에이전트 전용 도구** (`read_file`, `replace`, `write_file`, `grep_search` 등)
+    - 정밀 수정, **대형 파일(> 100줄/10KB)** 부분 읽기, 컨텍스트 최적화가 필요한 복잡한 작업에 활용.
+
+---
+
+## 디렉토리 구조 (Directory Structure)
+
+## 디렉토리 구조 (Directory Structure)
+
+```
+지식 베이스: 수집(Raw) → 위키(Wiki) → 산출물(Outputs)
+```
+
+| 영역 | 디렉토리 | 역할 |
+|------|----------|------|
+| Staging | `00_Inbox/` | 신규 파일 진입 대기 공간 |
+| Staging | `00_Inbox/unsorted/` | 도메인 미분류 파일 임시 대기 — 바이너리 원본·텍스트 노트·Sidecar 노트 모두 포함 (R4 스캔 포함, R1 신규 수집 제외) |
+| System | `01_System/` | 규칙, 인덱스, 템플릿, Dashboard.md |
+| 행정/일반 | `10-19` | 행정 및 공통 사무 (사용자 정의) |
+| Wiki | `20-29` | 기술 지식 위키 (영속) |
+| Wiki | `30-39` | 프로젝트 위키 (한시적) |
+| Outputs | `81_Outputs/` | Q&A 산출물 |
+| Synthesis | `82_Synthesis/` | 능동 합성 노트 |
+| Archive 🚫 | `91_Raw_Archive/` | 가공 완료 원본 (읽기 금지) |
+| Archive 🚫 | `92_Completed_Projects/` | 종료 프로젝트 (읽기 금지) |
+| Archive 🚫 | `99_History/` | 이력 및 로그 롤오버 (읽기 금지) |
+
+---
+
+## Dashboard Prefix 규칙
+
+`01_System/Dashboard.md`에 기록하는 모든 로그는 아래 6가지 Prefix 중 하나를 사용합니다.
+
+| Prefix | 날짜 포맷 | 용도 |
+|--------|-----------|------|
+| `[Log]` | `[YYYYMMDD]` | 일반 작업 로그, status 변경 이력 |
+| `[Cache]` | `[YYYYMMDD]` | 유사도 스캔 캐시 |
+| `[Lint]` | `[YYYYMMDD-HHmm]` | Lint 세션 시작/완료 (분 단위 확장 허용) |
+| `[Lint-Step]` | `[YYYYMMDD-HHmm]` | Lint 단계별 완료 마커 |
+| `[Unsorted]` | `[YYYYMMDD]` | 도메인 미분류 플래그 |
+| `[Cache-Expired]` | — | 만료된 캐시 표시 |
+
+---
+
+## 빠른 탐색 가이드 (Navigation)
+
+| 수행 작업 | 추가 로드 파일 |
+|-----------|----------------|
+| 새 파일/노트 수집·처리 | [R1_ingest.md](R1_ingest.md) |
+| 노트 검색·조회 | [R2_search.md](R2_search.md) |
+| Q&A 결과물 저장 | [R3_outputs.md](R3_outputs.md) |
+| 정기 Lint 점검 실행 | [R4_lint.md](R4_lint.md) |
+| 합성 노트 작업 | [R5_synthesis.md](R5_synthesis.md) |
+| Frontmatter 작성·수정 | [R6_metadata.md](R6_metadata.md) |
+| 노트 통합·이력 이관 | [R7_merge.md](R7_merge.md) |
+| 보안·자동화 확인 | [R8_security.md](R8_security.md) |
+| 패치 이력 및 로드맵 | [roadmap.md](roadmap.md) |
