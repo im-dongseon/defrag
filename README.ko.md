@@ -53,20 +53,21 @@ chmod +x _system/deploy_to_vault.sh
 `_system/skills/` 디렉토리에는 에이전트의 능력을 확장하는 전문 스킬들이 포함되어 있습니다.
 
 - **new-file-processor (nfp):** 인박스 파일의 자동 분류 및 표준화.
-- **defrag-search:** 3단계 프로토콜을 준수한 고효율 검색 스킬.
+- **search:** 에이전트가 내부적으로 지식을 탐색할 때 사용하는 3단계 검색 프로토콜 스킬.
+- **defrag-search:** 텔레그램(Hermes) 등 외부 인터페이스에서 지식 베이스를 검색하기 위한 전용 스킬.
 
 ---
 
 ## 4. 외부 연동: Hermes (Telegram Search)
 
-[Hermes](https://github.com/your-hermes-repo)를 이용하면 텔레그램에서 옵시디언 볼트의 지식을 실시간으로 검색할 수 있습니다.
+[Hermes](https://github.com/your-hermes-repo)를 이용하면 텔레그램에서 옵시디언 볼트의 지식을 실시간으로 검색할 수 있습니다. 이 기능은 `defrag-search` 스킬을 기반으로 작동합니다.
 
 ### 4-1. 텔레그램 봇 설정
 1. Telegram BotFather를 통해 봇 토큰을 발급받습니다.
 2. Hermes 설정 파일에 볼트 경로와 봇 토큰을 등록합니다.
 
 ### 4-2. 검색 명령어
-- `/search [키워드]`: 볼트 내의 지식을 3단계 검색 프로토콜로 찾아 요약해줍니다.
+- `/search [키워드]`: `defrag-search` 스킬을 사용하여 볼트 내 지식을 3단계 프로토콜로 찾아 요약해줍니다.
 - `/ask [질문]`: 볼트의 지식을 기반으로 에이전트가 답변을 생성합니다.
 
 ---

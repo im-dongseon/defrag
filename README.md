@@ -77,11 +77,26 @@ chmod +x _system/deploy_to_vault.sh
 
 Professional agent skills are located in `_system/skills/`:
 - **new-file-processor (nfp):** Auto-classification and standardization of inbox files.
-- **defrag-search:** High-precision search following the 3-step protocol.
+- **search:** Internal 3-step search protocol skill used by AI agents for navigating knowledge.
+- **defrag-search:** Dedicated skill for external interfaces (e.g., Hermes/Telegram) to search the knowledge base.
 
 ---
 
-## 6. Inspiration & References
+## 6. External Integration: Hermes (Telegram Search)
+
+Using [Hermes](https://github.com/your-hermes-repo), you can search your Obsidian vault in real-time via Telegram. This feature is powered by the `defrag-search` skill.
+
+### 6-1. Telegram Bot Setup
+1. Issue a bot token through Telegram's BotFather.
+2. Register your vault path and bot token in the Hermes configuration file.
+
+### 6-2. Search Commands
+- `/search [keyword]`: Searches the vault using the 3-step protocol via the `defrag-search` skill and provides a summary.
+- `/ask [question]`: Generates answers based on the knowledge base using an AI agent.
+
+---
+
+## 7. Inspiration & References
 
 `defrag` is built upon the foundational work of the following projects:
 
